@@ -9,12 +9,12 @@ pipeline {
   stages {
     stage ('Clean Up Workspace') {
       steps {
-         cleanEs()
+         cleanWs()
       }
     }
     stage ('Check out from scm') {
       steps {
-            git branch: "master", credentialId: "github", url: "https://github.com/zshuvo26/ci-cd-projects"
+            git branch: "master", credentialsId: "github", url: "https://github.com/zshuvo26/ci-cd-projects"
           }
       }
   }
