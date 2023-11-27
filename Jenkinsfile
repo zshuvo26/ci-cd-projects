@@ -17,5 +17,16 @@ pipeline {
             git branch: "master", credentialsId: "github", url: "https://github.com/zshuvo26/ci-cd-projects"
           }
       }
+    stage ('Build Application') {
+      steps {
+            sh: "mvn clean package"
+          }
+      }
+
+    stage ('Test Application') {
+      steps {
+            sh: "mvn test"
+          }
+      }
   }
 }
