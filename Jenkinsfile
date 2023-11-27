@@ -7,25 +7,25 @@ pipeline {
     maven 'Maven-3'
   }
   stages {
-    stage ('Clean Up Workspace') {
+    stage('Clean Up Workspace') {
       steps {
          cleanWs()
       }
     }
-    stage ('Check out from scm') {
+    stage('Check out from scm') {
       steps {
             git branch: "master", credentialsId: "github", url: "https://github.com/zshuvo26/ci-cd-projects"
           }
       }
-    stage ('Build Application') {
+    stage('Build Application') {
       steps {
-            sh: "mvn clean package"
+            sh "mvn clean package"
           }
       }
 
-    stage ('Test Application') {
+    stage('Test Application') {
       steps {
-            sh: "mvn test"
+            sh "mvn test"
           }
       }
   }
