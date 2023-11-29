@@ -7,7 +7,7 @@ pipeline {
     maven 'Maven-3'
   }
   environment{
-    APP_NAME= "ci-cd-projects"
+    APP_NAME= "spring-boot-web"
     RELEASE= "1.0.0"
     DOCKER_USER= "zshuvo26"
     DOCKER_PASS= "dockerhub"
