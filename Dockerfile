@@ -19,6 +19,5 @@ RUN mvn clean install
 FROM eclipse-temurin:17.0.6_10-jdk
 WORKDIR /app
 COPY --from=build /app/target/spring-boot-web.jar /apps/
-RUN mvn clean install
 EXPOSE 8086
 CMD ["jave","-jar","spring-boot-web.jar"]
