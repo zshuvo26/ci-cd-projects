@@ -7,12 +7,14 @@ pipeline {
     maven 'Maven-3'
   }
   environment{
-    APP_NAME= "spring-boot-web"
-    RELEASE= "1.0.0"
-    DOCKER_USER= "zshuvo26"
-    DOCKER_PASS= "dockerhub"
-    IMAGE_NAME="${DOCKER_USER}"+"/"+"${APP_NAME}"
-    IMAGE_TAG="${RELEASE}-${BUILD_NUMBER}"
+      dockerimagename = "zshuvo26/spring-boot-web"
+      dockerImage = ""
+//     APP_NAME= "spring-boot-web"
+//     RELEASE= "1.0.0"
+//     DOCKER_USER= "zshuvo26"
+//     DOCKER_PASS= "dockerhub"
+//     IMAGE_NAME="${DOCKER_USER}"+"/"+"${APP_NAME}"
+//     IMAGE_TAG="${RELEASE}-${BUILD_NUMBER}"
 
   }
   stages {
@@ -48,18 +50,38 @@ pipeline {
           }
       }
 
-    stage('Build and Push Docker Image') {
-      steps {
-        script {
-          docker.withRegistry('',DOCKER_PASS){
-                    docker_image = docker.build "${IMAGE_NAME}"
-                   }
-          docker.withRegistry('',DOCKER_PASS){
-                    docker_image.push("${IMAGE_NAME}")
-                    docker_image.push('latest')
-                   }
-                 }
-          }
-      }
-  }
+//     stage('Build and Push Docker Image') {
+//       steps {
+//         script {
+//           docker.withRegistry('',DOCKER_PASS){
+//                     docker_image = docker.build "${IMAGE_NAME}"
+//                    }
+//           docker.withRegistry('',DOCKER_PASS){
+//                     docker_image.push("${IMAGE_NAME}")
+//                     docker_image.push('latest')
+//                    }
+//                  }
+//           }
+//       }
+//   }
+      stage('Build docker image'){
+            steps{
+                script{
+                dockerImage = docker.build dockerimagename
+                }
+            }
+        }
+        stage('Push image to Hub'){
+        environment{
+        registryCredential = 'dockerhub'
+        }
+            steps{
+                script{
+                    docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+                               dockerImage.push("latest")
+
+}
+               }
+           }
+        }
 }
